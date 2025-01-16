@@ -1,20 +1,20 @@
 import gymnasium as gym
+from gymnasium.wrappers import RecordVideo 
 
-# Initialise the environment
-env = gym.make("LunarLander-v3", render_mode="human")
+env = gym.make('CartPole-v1', render_mode="rgb_array")
+trigger = lambda t: t % 10 == 0 #動画を保存をするエピソードの指定
+env = gym.wrappers.RecordVideo(env, video_folder="./", episode_trigger=trigger, disable_logger=True)
+env.reset()
 
-# Reset the environment to generate the first observation
-observation, info = env.reset(seed=42)
-for _ in range(1000):
-    # this is where you would insert your policy
-    action = env.action_space.sample()
-
-    # step (transition) through the environment with the action
-    # receiving the next observation, reward and if the episode has terminated or truncated
-    observation, reward, terminated, truncated, info = env.step(action)
-
-    # If the episode has ended then we can reset to start a new episode
-    if terminated or truncated:
-        observation, info = env.reset()
+for i_episode in range(20):
+    observation = env.reset()
+    for t in range(100):
+        env.render()
+        print(observation)
+        action = env.action_space.sample()
+        observation, reward, terminated, truncated, info = env.step(action)
+        if terminated or truncated:
+            print("Episode finished after {} timesteps".format(t+1))
+            break
 
 env.close()
