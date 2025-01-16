@@ -46,20 +46,20 @@
     - 速度・角速度については2分割  
   
     1. ```math
-        \begin{equation}
-        x=\left[\begin{matrix}-\infty \leqq x \lt -1.44  \\
-        -1.44 \leqq x \lt -0.48  \\
-        -0.48 \leqq x \lt 0.48  \\
-        0.48 \leqq x \lt 1.44  \\
-        1.44 \leqq x \lt \infty \end{matrix} \right]
-        \end{equation}
-        ``` 
+       \begin{equation}
+       x=\left[\begin{matrix}-\infty \leqq x \lt -1.44  \\
+       -1.44 \leqq x \lt -0.48  \\
+       -0.48 \leqq x \lt 0.48  \\
+       0.48 \leqq x \lt 1.44  \\
+       1.44 \leqq x \lt \infty \end{matrix} \right]
+       \end{equation}
+       ``` 
     
     2. ```math
-        \begin{equation}
-        \theta=\left[\begin{matrix}-\infty \leqq \theta \lt -1.44 \\ -1.44 \leqq \theta \lt -0.48 \\ -0.48 \leqq \theta \lt 0.48 \\ 0.48 \leqq \theta \lt 1.44 \\ 1.44 \leqq \theta \lt \infty \end{matrix} \right]
-        \end{equation}
-        ``` 
+    \begin{equation}
+    \theta=\left[\begin{matrix}-\infty \leqq \theta \lt -1.44 \\ -1.44 \leqq \theta \lt -0.48 \\ -0.48 \leqq \theta \lt 0.48 \\ 0.48 \leqq \theta \lt 1.44 \\ 1.44 \leqq \theta \lt \infty \end{matrix} \right]
+    \end{equation}
+    ``` 
         
     3.  ```math
         \begin{equation}
