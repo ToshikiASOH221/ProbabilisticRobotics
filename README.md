@@ -44,36 +44,6 @@
   - 計算量の都合から位置や速度などを適度に分割し離散化
     - 位置・角度については5分割
     - 速度・角速度については2分割  
-  
-    1. ```math
-       \begin{equation}
-       x=\left[\begin{matrix}-\infty \leqq x \lt -1.44  \\
-       -1.44 \leqq x \lt -0.48  \\
-       -0.48 \leqq x \lt 0.48  \\
-       0.48 \leqq x \lt 1.44  \\
-       1.44 \leqq x \lt \infty \end{matrix} \right]
-       \end{equation}
-       ``` 
-    
-    2. ```math
-    \begin{equation}
-    \theta=\left[\begin{matrix}-\infty \leqq \theta \lt -1.44 \\ -1.44 \leqq \theta \lt -0.48 \\ -0.48 \leqq \theta \lt 0.48 \\ 0.48 \leqq \theta \lt 1.44 \\ 1.44 \leqq \theta \lt \infty \end{matrix} \right]
-    \end{equation}
-    ``` 
-        
-    3.  ```math
-        \begin{equation}
-        v = \left[ \begin{matrix} -\infty \lt 0 \\ 0 \leqq \infty \end{matrix}\right]
-        \end{equation}
-        ``` 
-        
-    4. ```math
-        \begin{equation}
-        \omega = \left[ \begin{matrix} -\infty \lt 0 \\ 0 \leqq \infty \end{matrix}\right]
-        \end{equation}
-        ``` 
-
-   - 状態数 = 5x5x2x2 = 100
 
 ```math
 \begin{equation}
@@ -103,6 +73,7 @@ v = \left[ \begin{matrix} -\infty \lt 0 \\ 0 \leqq \infty \end{matrix}\right]
 \end{equation}
 ``` 
 
+  - 状態数 = 5x5x2x2 = 100
 
 ## 行動
 - 振り子に対する操作＝行動は$a = [0, 1]$（左，右）で表現
