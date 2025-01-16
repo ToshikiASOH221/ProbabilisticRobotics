@@ -62,6 +62,70 @@
 
    - 状態数 = 5x5x2x2 = 100
 
+**1. x の区間:**
+- $-\infty \leq x < -1.44$
+- $-1.44 \leq x < -0.48$
+- $-0.48 \leq x < 0.48$
+- $0.48 \leq x < 1.44$
+- $1.44 \leq x < \infty$
+
+**2. θ の区間:**
+- $-\infty \leq \theta < -1.44$
+- $-1.44 \leq \theta < -0.48$
+- $-0.48 \leq \theta < 0.48$
+- $0.48 \leq \theta < 1.44$
+- $1.44 \leq \theta < \infty$
+
+**3. v の区間:**
+- $-\infty < 0$
+- $0 \leq \infty$
+
+**4. ω の区間:**
+- $-\infty < 0$
+- $0 \leq \infty$
+
+$$
+x = \left\{
+\begin{matrix}
+-\infty \leq x < -1.44 \\
+-1.44 \leq x < -0.48 \\
+-0.48 \leq x < 0.48 \\
+0.48 \leq x < 1.44 \\
+1.44 \leq x < \infty
+\end{matrix}
+\right.
+$$
+
+$$
+\theta = \left\{
+\begin{matrix}
+-\infty \leq \theta < -1.44 \\
+-1.44 \leq \theta < -0.48 \\
+-0.48 \leq \theta < 0.48 \\
+0.48 \leq \theta < 1.44 \\
+1.44 \leq \theta < \infty
+\end{matrix}
+\right.
+$$
+
+$$
+v = \left\{
+\begin{matrix}
+-\infty < 0 \\
+0 \leq \infty
+\end{matrix}
+\right.
+$$
+
+$$
+\omega = \left\{
+\begin{matrix}
+-\infty < 0 \\
+0 \leq \infty
+\end{matrix}
+\right.
+$$
+
 ## 行動
 - 振り子に対する操作＝行動は$a = [0, 1]$（左，右）で表現
 - 行動数 = 2
