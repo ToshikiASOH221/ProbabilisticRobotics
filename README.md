@@ -35,10 +35,10 @@
   - 例：右レーンへ車線変更を試みたが後方から車が来て車線変更できなかった
 - $T(s'|s,a)$：ある状態 $s$ から行動 $a$ をとって状態 $s'$ に遷移する確率
 
-## ベルマン方程式
+## ベルマン方程式の利用
 - 価値関数（状態価値関数 $V^\pi(s)$，行動価値関数 $Q^\pi(s, a)$）を漸化式で表現するために用いる
 - 状態価値関数 $V^\pi(s)$を使った価値の期待値は
-  $$V^\pi(s) = \Sigma_a \pi(a|s) \Sigma_{s'} T(s'|s, a)(R(s, s') + \gamma V^\pi(s'))$$
+  $$V^\pi(s) = \Sigma_a \pi(a|s) \Sigma_{s'} T(s'|s, a)(R(s, s') + \gamma V^\pi(s'))$$  
   で表現できる
 - ある状態 $s$ の時の最適な行動 $s$ を知りたい
 - 最適行動を得るには  
@@ -48,15 +48,15 @@
   4. 最大の状態価値関数 $V^\pi(s_{t+1})$ になる行動を採用する
 - 行動価値関数 $Q^\pi(s, a)$ は必ずしも戦略 $\pi$ に従うわけではない
 - ある行動 $a$ をとり遷移確率 $P^a_{ss'}$ で状態 $s'$ に遷移するとき，行動価値関数は
-  $$Q^\pi(s,a) = \Sigma_{s'} P^a_{ss'}\left[R^a_{ss'}+\gamma V^\pi(s')\right]$$
+  $$Q^\pi(s,a) = \Sigma_{s'} P^a_{ss'}\left[R^a_{ss'}+\gamma V^\pi(s')\right]$$  
   で表現できる  
   $R^a_{ss'}$ は状態 $s$ から行動 $a$ をとり，状態 $s'$ に遷移した時の報酬
 - $V^\pi(s)$ から方策 $\pi(s,a)$ に従い，行動するが**結果的にある行動 $a$ をとった後の価値は $Q^\pi(s,a)$ **となる
 - なので，
-  $$V^\pi(s) = \Sigma_a \pi(a|s) Q^\pi(s,a)$$
+  $$V^\pi(s) = \Sigma_a \pi(a|s) Q^\pi(s,a)$$  
   と表現できる．行動確率と行動価値関数の期待値で表現している．
 - 上式を $Q^\pi(s,a)$ に代入すると  
-  $$Q^\pi(s,a) = \Sigma_{s'} P^a_{ss'} \left[ R^a_{ss'} + \gamma \Sigma_{a'} \pi(a'|s') Q^\pi(s',a') \right]$$
+  $$Q^\pi(s,a) = \Sigma_{s'} P^a_{ss'} \left[ R^a_{ss'} + \gamma \Sigma_{a'} \pi(a'|s') Q^\pi(s',a') \right]$$  
   となる
 
 ## Q学習とは
@@ -67,7 +67,7 @@
     - 行動$a$ がランダムの場合は値が安定しない
     - 本来：統計をとる必要あり
   - 更新前の値も含めることで過去の行動価値関数の実績を考慮
-    - $Q(s,a) = (1-\alpha) Q(s,a) + \alpha \left[r + max_{a'} Q(s',a')\right]$
+    - $Q(s,a) = (1-\alpha) Q(s,a) + \alpha \left[r + max_{a'} Q(s',a')\right]$  
     - $\alpha$ を小さくする←過去の行動価値関数が支配的になる
 
 # 倒立振子をQ学習で制御
