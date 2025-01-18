@@ -38,7 +38,11 @@
 ## ベルマン方程式の利用
 - 価値関数（状態価値関数 $V^\pi(s)$，行動価値関数 $Q^\pi(s, a)$）を漸化式で表現するために用いる
 - 状態価値関数 $V^\pi(s)$を使った価値の期待値は
-  $$V^\pi(s) = \Sigma_a \pi(a|s) \Sigma_{s'} T(s'|s, a)(R(s, s') + \gamma V^\pi(s'))$$  
+  ```math
+  \begin{equation}
+  V^\pi(s) = \Sigma_a \pi(a|s) \Sigma_{s'} T(s'|s, a)(R(s, s') + \gamma V^\pi(s'))
+  \end{equation}
+  ```
   で表現できる
 - ある状態 $s$ の時の最適な行動 $s$ を知りたい
 - 最適行動を得るには  
