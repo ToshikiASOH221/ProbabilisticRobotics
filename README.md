@@ -66,14 +66,14 @@ Q^\pi(s,a) = \Sigma_{s'} P^a_{ss'}\left[R^a_{ss'}+\gamma V^\pi(s')\right]
 \begin{equation}
 V^\pi(s) = \Sigma_a \pi(a|s) Q^\pi(s,a)
 \end{equation}
-```
+```  
   と表現できる．行動確率と行動価値関数の期待値で表現している．
 - 上式を $Q^\pi(s,a)$ に代入すると
 ```math
 \begin{equation}
 Q^\pi(s,a) = \Sigma_{s'} P^a_{ss'} \left[ R^a_{ss'} + \gamma \Sigma_{a'} \pi(a'|s') Q^\pi(s',a') \right]
 \end{equation}
-```
+```  
   となる
 
 ## Q学習とは
@@ -91,60 +91,38 @@ Q(s,a) = (1-\alpha) Q(s,a) + \alpha \left[r + max_{a'} Q(s',a')\right]
 ```
   - $\alpha$ を小さくする←過去の行動価値関数が支配的になる
 
-# 倒立振子をQ学習で制御
+# 倒立振子をQ学習で制御（実装内容）
 ## 状態  
 - 振り子の状態は$s = [x, \theta, v, \omega]$の4次元で表現
     1. $x$：振り子位置（-2.4 ≦ $x$ ≦ 2.4）
-    2. $\theta$：振り子角度（-41.8 ≦ $\theta$ ≦ 41.8）
-    3. $v$：振り子速度（- $\infty$ ≦ $v$ ≦ $\infty$）
+    2. $v$：振り子速度（- $\infty$ ≦ $v$ ≦ $\infty$）
+    3. $\theta$：振り子角度（-41.8 ≦ $\theta$ ≦ 41.8）
     4. $\omega$：振り子角速度（- $\infty$ ≦ $\omega$ ≦ $\infty$）
 
 - 状態の離散化  
   - 計算量の都合から位置や速度などを適度に分割し離散化
-    - 位置・角度については5分割
-    - 速度・角速度については2分割  
+  - 各パラメータを6分割
+    - $x=\left[-2.4,   -1.44,  -0.48,   0.48,   1.44,   2.4  \right]$
+    - $v=\left[ -3.0,    -1.8,   -0.6,    0.6,    1.8,    3.0,  \right]$
+    - $\theta = \left[-41.8, -25.08,  -8.36,   8.36,  25.08,  41.8 \right]$
+    - $\omega = \left[ -2.0,    -1.2,   -0.4,    0.4,    1.2,    2.0  \right]$
 
-```math
-\begin{equation}
-x=\left[\begin{matrix}-\infty \leqq x \lt -1.44  \\
--1.44 \leqq x \lt -0.48  \\
--0.48 \leqq x \lt 0.48  \\
-0.48 \leqq x \lt 1.44  \\
-1.44 \leqq x \lt \infty \end{matrix} \right]
-\end{equation}
-``` 
-
-```math
-\begin{equation}
-\theta=\left[\begin{matrix}-\infty \leqq \theta \lt -1.44 \\ -1.44 \leqq \theta \lt -0.48 \\ -0.48 \leqq \theta \lt 0.48 \\ 0.48 \leqq \theta \lt 1.44 \\ 1.44 \leqq \theta \lt \infty \end{matrix} \right]
-\end{equation}
-``` 
-
-```math
-\begin{equation}
-v = \left[ \begin{matrix} -\infty \lt 0 \\ 0 \leqq \infty \end{matrix}\right]
-\end{equation}
-``` 
-
-```math
-\begin{equation}
-\omega = \left[ \begin{matrix} -\infty \lt 0 \\ 0 \leqq \infty \end{matrix}\right]
-\end{equation}
-``` 
-
-  - 状態数 = 5x5x2x2 = 100
+  - $状態数=6^4=1296通り$
 
 ## 行動
 - 振り子に対する操作＝行動は$a = [0, 1]$（左，右）で表現
 - 行動数 = 2
 
 ## 報酬
-- なるべく直立で長く倒立している状態を高く評価
-- 振り子が倒れたら減点（地面と振り子のなす角が閾値以下）
+- 直立していたら加点：+1
+- 振り子が倒れたら減点（地面と振り子のなす角が閾値以下）：-100
 
 ## 方策
 
-## 評価
+
+## 評価方法
+- 学習結果のレンダリング動画を見て制御できているか官能評価
+- Q関数（テーブル）をヒートマップで確認
 
 ## 学習の終了判定
 - 変化量の最大値が閾値以下
@@ -161,7 +139,12 @@ v = \left[ \begin{matrix} -\infty \lt 0 \\ 0 \leqq \infty \end{matrix}\right]
 # まとめ
 - 倒立振子を題材にしたQ学習のモデル化・実装を行った
 - 学習により倒立振子を長時間立たせることができた
-## 参考文献
+# 参考文献
 1. [確率ロボティクス第12回講義資料](https://ryuichiueda.github.io/slides_marp/prob_robotics_2024/lesson12)
 2. [今さら聞けない強化学習（1）：状態価値関数とBellman方程式](https://qiita.com/triwave33/items/5e13e03d4d76b71bc802)
 3. [今さら聞けない強化学習（3）：行動価値関数とBellman方程式](https://qiita.com/triwave33/items/8966890701169f8cad47)
+4. [（私のような）猿でもわかる強化学習（Q学習）](https://qiita.com/mine820/items/e51c91660cef00a50006)
+5. [【強化学習初心者向け】シンプルな実装例で学ぶQ学習、DQN、DDQN【CartPoleで棒立て：1ファイルで完結、Kearas使用】](https://qiita.com/sugulu_Ogawa_ISID/items/bc7c70e6658f204f85f9)
+6. [強化学習のQ関数について調べてみた](https://zenn.dev/channnnsm/articles/ce5c4a69a8de40)
+7. [Open AI GymのCartPoleコードをいじりながら仕組みを学ぶ（１）](https://qiita.com/masataka46/items/cc37d36137a4a162c04a)
+8. [OpenAI Gym 入門](https://qiita.com/ishizakiiii/items/75bc2176a1e0b65bdd16)
