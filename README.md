@@ -112,6 +112,7 @@ Q(s,a) = (1-\alpha) Q(s,a) + \alpha \left[r + max_{a'} Q(s',a')\right]
     - $v=\left[ -3.0,    -1.8,   -0.6,    0.6,    1.8,    3.0  \right]$
     - $\theta = \left[-41.8, -25.08,  -8.36,   8.36,  25.08,  41.8 \right]$
     - $\omega = \left[ -2.0,    -1.2,   -0.4,    0.4,    1.2,    2.0  \right]$
+  
 
   - $状態数=6^4=1296通り$
 
@@ -134,28 +135,39 @@ Q(s,a) = (1-\alpha) Q(s,a) + \alpha \left[r + max_{a'} Q(s',a')\right]
 ## 学習前
 - ランダムに台車が移動
 - 振り子の制御ができていない  
-<img src="./figs/未学習.gif" width=200>  
+<img src="./figs/未学習.gif" width=400>  
 
 ## 学習後
 - 0試行目の様子  
-<img src="./figs/rl-video-episode-0.gif" width=300>  
+  - 全然倒立できていない  
+
+  - <img src="./figs/rl-video-episode-0.gif" width=400 loop="infinite">  
 
 - 10試行目の様子  
-<img src="./figs/rl-video-episode-10.gif" width=300>  
+  - 倒立し始めるが，横移動しながらフェードアウトしてしまう
+  - <img src="./figs/rl-video-episode-10.gif" width=400 loop="infinite">  
 
 - 100試行目の様子  
-<img src="./figs/rl-video-episode-100.gif" width=300>  
-- 200試行目の様子  
-<img src="./figs/rl-video-episode-200.gif" width=300>  
-- 500試行目の様子  
-<img src="./figs/rl-video-episode-500.gif" width=300>  
-- 1000試行目の様子  
-<img src="./figs/rl-video-episode-1000.gif" width=300>  
-- 2000試行目の様子  
-<img src="./figs/rl-video-episode-2000.gif" width=300>  
+  - 同様に倒立するが，フェードアウト
+  - <img src="./figs/rl-video-episode-100.gif" width=400 loop="infinite">  
 
-## Q値の変化
-- 学習回数別のQ値変化
+- 200試行目の様子  
+  - 同様に倒立するが，フェードアウト
+  - <img src="./figs/rl-video-episode-200.gif" width=400 loop="infinite">  
+
+- 500試行目の様子  
+  - 横揺れすることで倒立と位置の保持をし続けるようになる
+  - <img src="./figs/rl-video-episode-500.gif" width=400 loop="infinite">  
+
+- 学習後の様子  
+  - まだ，改善の余地があるがおおむね倒立することができている 
+  - <img src="./figs/opt.gif" width=400 loop="infinite">  
+
+## 獲得報酬の変位
+- 学習開始から終了までの報酬の増減をグラフで表示
+
+- <img src="./figs/報酬の推移.jpg" width=400>
+
 # まとめ
 - 倒立振子を題材にしたQ学習のモデル化・実装を行った
 - 学習により倒立振子を長時間立たせることができた

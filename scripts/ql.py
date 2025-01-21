@@ -1,4 +1,5 @@
 import numpy as np
+import time
 import gymnasium as gym
 from gymnasium.wrappers import RecordVideo 
 
@@ -10,29 +11,30 @@ gamma = 0.99
 reward = 0
 steps = 200
 episodes = 100000 # 試行回数
-learn_convergence = 190 # 学習収束の基準値（報酬の値）
+learn_convergence = 195 # 学習収束の基準値（報酬の値）
 learn_proc_rec_flag = 100 # 学習経過の様子を定期的に記録
 record_flag = False
 learned_flag = False
 ep_finish_flag = False
 
 # 動画レンダリング処理
-record_flag = lambda t: t in [0, 10 , 100, 200, 500, 1000, 2000]
-# 状態パラメータの範囲
-digitize_num = 6
+record_episodes = [0, 10 , 100, 200, 500, 1000, 2000, 5000, 10000, 15000, 20000]
+record_flag = lambda x: x in record_episodes
 
-pos_range = [-4.8, 4.8]
-vel_range = [-10, 10]
+# 状態パラメータの範囲
+digitize_num = 4
+
+pos_range = [-2.4, 2.4] #[-4.8, 4.8]
+vel_range = [-3.0, 3.0] #[-10, 10]
 ang_range = [-0.418, 0.418]
-omg_range = [-10, 10]
+omg_range = [-2.0, 2.0] #[-10, 10]
+for j, x in enumerate(np.array([pos_range, vel_range, ang_range, omg_range])):
+    bin = np.linspace(x[0], x[1], digitize_num + 1)[1:-1]
+    print(bin)
 
 # Qテーブルのヒートマップを描画
-def qtable_heatmap(q_tables):
-    min = np.min(q_tables)
-    max = np.max(q_tables)
-    norm_q_tables = (q_tables - min) / (max - min)
-    
-    return norm_q_tables
+def qtable_heatmap():
+    return
 
 def bins(clip_min, clip_max, num):
     return np.linspace(clip_min, clip_max, num + 1)[1:-1]
@@ -90,7 +92,7 @@ class Q():
         
         
     def run(self):
-        global ep_finish_flag, record_flag
+        global ep_finish_flag, learned_flag, record_episodes
         
         ep_rewards = np.array([])
         previous_ep_steps = 0
@@ -104,9 +106,6 @@ class Q():
             
             # 1エピソード内のステップの繰り返し
             for step in range(steps):
-                # 学習終了処理
-                if learned_flag:
-                    self.env.render(render_mode="human")
                 
                 self.obs, _, terminated, truncated, info = self.env.step(action)
                 #print("obs:{}".format(self.obs))
@@ -137,20 +136,28 @@ class Q():
                     break
         
             #print("[debug] q-table:\n{}".format(self.q_table))
-            print("episode steps:{}".format(step))
+            #print("episode steps:{}".format(step))
             print("[{}] episode reward:{}".format(ep, ep_reward))
             
             ep_rewards = np.append(ep_rewards, ep_reward)
-            print("[{}] total reward mean:{}".format(ep, np.mean(ep_rewards)))
             
+            if ep in record_episodes:
+                np.savetxt("../data/q_table_{}.csv".format(ep), self.q_table, delimiter=",", fmt="%.6f")
+            
+            print("average of {}-{} episode rewards:{}".format(ep, ep-100, ep_rewards[ep-100:ep].mean()))
             # 学習終了判定・処理
-            if ep < 100 and ep_rewards[ep-100:ep].mean() > learn_convergence:
-                record_flag = True
+            if ep > 100 and ep_rewards[ep-100:ep].mean() > learn_convergence:
+                learned_flag = True
+                                           
+                print("+++ learning is done ++++++++++++++++++++")
+                print("average of episode rewards:{}".format(ep_rewards[ep-100:ep].mean()))
+                np.savetxt("../data/episode_rewards.csv", ep_rewards, fmt="%.6f")
+                np.savetxt("../data/opt_q_table.csv".format(ep), self.q_table, delimiter=",", fmt="%.6f")
+        
                 self.env.close()
                 break
     
-
-def main():#
+def main():
     q_learning = Q()
     q_learning.run()
     
