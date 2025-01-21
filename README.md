@@ -95,26 +95,25 @@ Q(s,a) = (1-\alpha) Q(s,a) + \alpha \left[r + max_{a'} Q(s',a')\right]
 
 # 倒立振子をQ学習で制御（実装内容）
 ## 処理の流れ
-<img src="./figs/フローチャート.jpg" width = 500>
-## 各関数
+- Q値は全要素を0で初期化
+- $\epsilon$ -greedy法で学習初期の行動を高確率でランダム選択
+- 学習を進めるにつれて確率 $\epsilon$ の値を減衰
+- 初期値 $\epsilon=0.5$ とした
+- 行動価値関数 $Q(s,a)$ は上述した式を利用
+  
+- <img src="./figs/フローチャート.jpg" width = 400>  
 
 ## 状態  
 - 振り子の状態は $s = [x, \theta, v, \omega]$ の4次元で表現
-    1. $x$：振り子位置（-4.8 ≦ $x$ ≦ 4.8）
+    1. $x$：振り子位置（-2.4 ≦ $x$ ≦ 2.4）
     2. $v$：振り子速度（- $\infty$ ≦ $v$ ≦ $\infty$）
     3. $\theta$：振り子角度（-24 ≦ $\theta$ ≦ 24）
     4. $\omega$：振り子角速度（- $\infty$ ≦ $\omega$ ≦ $\infty$）
 
 - 状態の離散化  
   - 計算量の都合から位置や速度などを適度に分割し離散化
-  - 各パラメータを6分割
-    - $x=\left[-2.4,   -1.44,  -0.48,   0.48,   1.44,   2.4  \right]$
-    - $v=\left[ -3.0,    -1.8,   -0.6,    0.6,    1.8,    3.0  \right]$
-    - $\theta = \left[-41.8, -25.08,  -8.36,   8.36,  25.08,  41.8 \right]$
-    - $\omega = \left[ -2.0,    -1.2,   -0.4,    0.4,    1.2,    2.0  \right]$
-  
-
-  - $状態数=6^4=1296通り$
+  - 今回は各パラメータを3分割
+  - $状態数=3^4=81通り$
 
 ## 行動
 - 振り子に対する操作＝行動は $a = [0, 1]$（左，右）で表現
@@ -125,11 +124,12 @@ Q(s,a) = (1-\alpha) Q(s,a) + \alpha \left[r + max_{a'} Q(s',a')\right]
 - 振り子が倒れたら減点（地面と振り子のなす角が閾値以下）：-100
 
 ## 評価方法
+- 報酬値が高いほどよい行動
 - 学習結果のレンダリング動画を見て制御できているか官能評価
-- Q関数（テーブル）をヒートマップで確認
 
 ## 学習の終了判定
-- 変化量の最大値が閾値以下
+- 終了判定：直近100試行の報酬の平均値が閾値以上
+- 今回は閾値を195(報酬の最大値は200)とした
 
 # 結果
 ## 学習前
@@ -165,18 +165,27 @@ Q(s,a) = (1-\alpha) Q(s,a) + \alpha \left[r + max_{a'} Q(s',a')\right]
 
 ## 獲得報酬の変位
 - 学習開始から終了までの報酬の増減をグラフで表示
+- 全体的に報酬の増減が激しいが増加傾向となっている
+- 450回目の試行付近で報酬が高くなっている
+- 特に，学習終了間際では連続して報酬の最大値をとっている
 
-- <img src="./figs/報酬の推移.jpg" width=400>
+- <img src="./figs/報酬の推移.jpg" width=400>  
 
 # まとめ
 - 倒立振子を題材にしたQ学習のモデル化・実装を行った
-- 学習により倒立振子を長時間立たせることができた
+- 学習により倒立振子を比較的長時間立たせることができた
+- 学習後も振り子の若干の横揺れが見られるので位置や角度に対する加減点など，報酬の見直しで改善できるのではないかと考える
+- さらに学習を進めることで改善される考える
+
+
 # 参考文献
+## 強化学習の理論について
 1. [確率ロボティクス第12回講義資料](https://ryuichiueda.github.io/slides_marp/prob_robotics_2024/lesson12)
 2. [今さら聞けない強化学習（1）：状態価値関数とBellman方程式](https://qiita.com/triwave33/items/5e13e03d4d76b71bc802)
 3. [今さら聞けない強化学習（3）：行動価値関数とBellman方程式](https://qiita.com/triwave33/items/8966890701169f8cad47)
 4. [（私のような）猿でもわかる強化学習（Q学習）](https://qiita.com/mine820/items/e51c91660cef00a50006)
 5. [【強化学習初心者向け】シンプルな実装例で学ぶQ学習、DQN、DDQN【CartPoleで棒立て：1ファイルで完結、Kearas使用】](https://qiita.com/sugulu_Ogawa_ISID/items/bc7c70e6658f204f85f9)
 6. [強化学習のQ関数について調べてみた](https://zenn.dev/channnnsm/articles/ce5c4a69a8de40)
-7. [Open AI GymのCartPoleコードをいじりながら仕組みを学ぶ（１）](https://qiita.com/masataka46/items/cc37d36137a4a162c04a)
-8. [OpenAI Gym 入門](https://qiita.com/ishizakiiii/items/75bc2176a1e0b65bdd16)
+## 強化学習の実装方法について
+8. [Open AI GymのCartPoleコードをいじりながら仕組みを学ぶ（１）](https://qiita.com/masataka46/items/cc37d36137a4a162c04a)
+9. [OpenAI Gym 入門](https://qiita.com/ishizakiiii/items/75bc2176a1e0b65bdd16)
